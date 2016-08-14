@@ -2,7 +2,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
+import AppComponent from './app';
+import { routing, appRoutingProviders } from './routes';
+import SchemaService from './schema_service';
+
+import {
+  defaultApolloClient,
+  APOLLO_PROVIDERS
+} from 'angular2-apollo';
+
+import ApolloClient, {
+  createNetworkInterface
+} from 'apollo-client';
+
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface('http://localhost:4000/graphql')
+});
 
 @NgModule({
   declarations: [
@@ -11,9 +26,14 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    routing
   ],
-  providers: [],
+  providers: [
+    APOLLO_PROVIDERS,
+    defaultApolloClient(client),
+    SchemaService
+  ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

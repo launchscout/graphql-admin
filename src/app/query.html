@@ -1,0 +1,6 @@
+<div *ngIf="listQuery">
+  <gql-list [queryName]="queryName"></gql-list>
+</div>
+<div *ngIf="!listQuery">
+  <gql-scalar [queryName]="queryName"></gql-scalar>
+</div>

@@ -1,0 +1,14 @@
+Fields
+<input type="button" (click)="executeQuery()" value="Get Data" />
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let field of scalarFields()"> {{field.name}} </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of queryResults">
+      <td *ngFor="let field of scalarFields()"> {{row[field.name]}}</td>
+    </tr>
+  </tbody>
+</table>

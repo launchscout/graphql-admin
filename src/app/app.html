@@ -1,0 +1,8 @@
+<nav>
+  <ul>
+    <li *ngFor="let query of queries">
+      <a [routerLink]="['/query', query.name]">{{query.name}}</a>
+    </li>
+  </ul>
+</nav>
+<router-outlet></router-outlet>

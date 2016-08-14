@@ -1,0 +1,15 @@
+<form *ngIf="querySchema" #argsForm="ngForm">
+  <div *ngFor="let arg of querySchema.args">
+    <label>{{arg.name}}</label>
+    <input [name]="arg.name" type="text" ngModel />
+  </div>
+  <input type="button" (click)="executeQuery(argsForm.value)" value="Get Data" />
+</form>
+<table *ngIf="queryResults">
+  <tbody>
+    <tr *ngFor="let field of scalarFields()">
+      <td>{{ field.name }}</td>
+      <td>{{ queryResults[field.name] }}</td>
+    </tr>
+  </tbody>
+</table>
