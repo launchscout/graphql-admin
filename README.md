@@ -7,6 +7,7 @@ So far the following works:
 * Executing queries that return a list
 * Executing queries that return a scalar value
   * with arguments
+* Mutations
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.11-webpack.2.
 
@@ -21,3 +22,8 @@ CORS as well for this setup to work.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## GraphQL server
+
+This project has so far only been tested using [our fork](https://github.com/gaslight/absinthe_example) the example [Absinthe](http://absinthe-graphql.org/) project. To try it, close this 
+project and run it. It already supports CORS so it should "Just Work" (TM).
