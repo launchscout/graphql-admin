@@ -25,5 +25,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## GraphQL server
 
-This project has so far only been tested using [our fork](https://github.com/gaslight/absinthe_example) the example [Absinthe](http://absinthe-graphql.org/) project. To try it, close this 
+This project has so far only been tested using [our fork](https://github.com/gaslight/absinthe_example) the example [Absinthe](http://absinthe-graphql.org/) project. To try it, clone this 
 project and run it. It already supports CORS so it should "Just Work" (TM).
