@@ -1,4 +1,12 @@
 <div *ngIf="mutationSchema">
 {{mutationSchema.name}}
-<gql-args-form *ngIf="mutationSchema" [args]="mutationSchema.args"></gql-args-form>
+<gql-args-form *ngIf="mutationSchema" [args]="mutationSchema.args" (onExecute)="executeMutation($event)"></gql-args-form>
+<table *ngIf="mutationResults">
+  <tbody>
+    <tr *ngFor="let field of graphQLBuilder().scalarFields()">
+      <td>{{ field.name }}</td>
+      <td>{{ mutationResults[field.name] }}</td>
+    </tr>
+  </tbody>
+</table>
 </div>

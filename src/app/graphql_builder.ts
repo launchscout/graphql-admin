@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default class QueryBuilder {
+export default class GraphQLBuilder {
   querySchema: Object;
 
   constructor(private querySchema: Object) {}
@@ -46,6 +46,19 @@ export default class QueryBuilder {
 
   }
 
+  buildMutation(args) {
+    return {
+      mutation: gql`
+        mutation ${this.queryName()}${this.declareArgumentVariables()} {
+          ${this.queryName()}${this.argumentVariables()} {
+            ${this.scalarFields().map((field) => field.name).join(', ')}
+          }
+        }
+      `,
+      variables: args,
+    };
+
+  }
   scalarFields() {
     return this.queryFields() ? this.queryFields().filter((field) => field.type.kind === "SCALAR") : [];
   }

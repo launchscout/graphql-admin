@@ -4,7 +4,7 @@ import SchemaService from './schema_service';
 import gql from 'graphql-tag';
 import { ActivatedRoute } from '@angular/router';
 import template from './gql-list.html';
-import QueryBuilder from './query_builder';
+import GraphQLBuilder from './graphql_builder';
 
 @Component({
   selector: 'gql-list',
@@ -18,16 +18,16 @@ export default class GqlListComponent {
     this.apolloClient = apolloClient;
   }
 
-  queryBuilder() {
-    if (!this._queryBuilder) {
-      this._queryBuilder = new QueryBuilder(this.querySchema);
+  graphQLBuilder() {
+    if (!this._graphQLBuilder) {
+      this._graphQLBuilder = new GraphQLBuilder(this.querySchema);
     }
-    return this._queryBuilder;
+    return this._graphQLBuilder;
   }
 
   executeQuery() {
-    this.apolloClient.watchQuery(this.queryBuilder().buildQuery()).subscribe({next: ({data}) => {
-      this.queryResults = data[this.queryBuilder().queryName()];
+    this.apolloClient.watchQuery(this.graphQLBuilder().buildQuery()).subscribe({next: ({data}) => {
+      this.queryResults = data[this.graphQLBuilder().queryName()];
     }});
   }
 

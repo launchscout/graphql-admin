@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { ActivatedRoute } from '@angular/router';
 import template from './gql-scalar.html';
 import GqlArgsForm from './gql-args-form';
-import QueryBuilder from './query_builder';
+import GraphQLBuilder from './graphql_builder';
 
 @Component({
   selector: 'gql-scalar',
@@ -20,15 +20,15 @@ export default class GqlScalarComponent {
     this.apolloClient = apolloClient;
   }
 
-  queryBuilder() {
-    if (!this._queryBuilder) {
-      this._queryBuilder = new QueryBuilder(this.querySchema);
+  graphQLBuilder() {
+    if (!this._graphQLBuilder) {
+      this._graphQLBuilder = new GraphQLBuilder(this.querySchema);
     }
-    return this._queryBuilder;
+    return this._graphQLBuilder;
   }
   executeQuery(queryArguments) {
-    this.apolloClient.watchQuery(this.queryBuilder().buildQuery(queryArguments)).subscribe({next: ({data}) => {
-      this.queryResults = data[this.queryBuilder().queryName()];
+    this.apolloClient.watchQuery(this.graphQLBuilder().buildQuery(queryArguments)).subscribe({next: ({data}) => {
+      this.queryResults = data[this.graphQLBuilder().queryName()];
     }});
   }
 
