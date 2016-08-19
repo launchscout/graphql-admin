@@ -1,13 +1,7 @@
-<form *ngIf="querySchema" #argsForm="ngForm">
-  <div *ngFor="let arg of querySchema.args">
-    <label>{{arg.name}}</label>
-    <input [name]="arg.name" type="text" ngModel />
-  </div>
-  <input type="button" (click)="executeQuery(argsForm.value)" value="Get Data" />
-</form>
+<gql-args-form *ngIf="querySchema" [args]="querySchema.args" (onExecute)="executeQuery($event)"></gql-args-form>
 <table *ngIf="queryResults">
   <tbody>
-    <tr *ngFor="let field of scalarFields()">
+    <tr *ngFor="let field of queryBuilder().scalarFields()">
       <td>{{ field.name }}</td>
       <td>{{ queryResults[field.name] }}</td>
     </tr>

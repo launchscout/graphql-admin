@@ -26,4 +26,10 @@ export default class SchemaService {
       return schema.queryType.fields.find((field) => field.name === queryName);
     });
   }
+
+  getMutationSchema(mutationName) {
+    return this.getSchema().map((schema) => {
+      return schema.mutationType.fields.find((field) => field.name === mutationName);
+    });
+  }
 }

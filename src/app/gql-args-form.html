@@ -1,0 +1,7 @@
+<form *ngIf="args" #argsForm="ngForm">
+  <div *ngFor="let arg of args">
+    <label>{{arg.name}}</label>
+    <input [name]="arg.name" type="text" ngModel />
+  </div>
+  <input type="button" (click)="execute(argsForm.value)" value="Get Data" />
+</form>

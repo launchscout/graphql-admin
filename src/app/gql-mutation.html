@@ -1,0 +1,4 @@
+<div *ngIf="mutationSchema">
+{{mutationSchema.name}}
+<gql-args-form *ngIf="mutationSchema" [args]="mutationSchema.args"></gql-args-form>
+</div>

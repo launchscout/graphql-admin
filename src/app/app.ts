@@ -13,6 +13,7 @@ export default class AppComponent {
     this.schemaService.getSchema().subscribe((schema) => {
       this.schema = schema;
       this.queries = schema.queryType.fields;
+      this.mutations = schema.mutationType.fields;
     });
   }
 }

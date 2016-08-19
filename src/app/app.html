@@ -1,8 +1,16 @@
 <nav>
+  Queries
   <ul>
     <li *ngFor="let query of queries">
       <a [routerLink]="['/query', query.name]">{{query.name}}</a>
     </li>
   </ul>
+  Mutations
+  <ul>
+    <li *ngFor="let mutation of mutations">
+      <a [routerLink]="['/mutation', mutation.name]">{{mutation.name}}</a>
+    </li>
+  </ul>
+
 </nav>
 <router-outlet></router-outlet>
