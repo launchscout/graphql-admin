@@ -1,6 +1,7 @@
 import GraphQLBuilder from './graphql_builder';
 
 describe("GraphQLBuilder", () => {
+
   let graphQLBuilder: GraphQLBuilder;
   let listQuerySchema: Object = {
     name: 'bob',
@@ -27,7 +28,7 @@ describe("GraphQLBuilder", () => {
         },
         "name": "id"
       }
-    ]
+    ],
     name: 'bob',
     type: {
       kind: 'OBJECT',

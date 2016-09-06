@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let query of queryFields">
+    <a [routerLink]="['/query', query.name]">{{query.name}}</a>
+  </li>
+</ul>

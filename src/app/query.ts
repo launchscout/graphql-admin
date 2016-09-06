@@ -11,20 +11,18 @@ import template from './query.html';
     directives: [GqlListComponent, GqlScalarComponent]
 })
 export default class QueryComponent implements OnInit {
-  @Input() queryName: String;
+  queryName: String;
+  querySchema: any;
+  listQuery: boolean;
 
   constructor(private schemaService : SchemaService, public route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.queryName = params.queryName;
-      this.listQuery = false;
-      this.schemaService.getQuerySchema(this.queryName).subscribe((querySchema) => {
-        this.querySchema = querySchema;
-        console.log(querySchema);
-        this.listQuery = this.querySchema.type.kind === 'LIST';
-      });
+      this.queryName = params['queryName'];
+      this.querySchema = this.schemaService.getQuerySchema(this.queryName);
+      this.listQuery = this.querySchema.type.kind === 'LIST';
     })
   }
 }

@@ -31,7 +31,7 @@ export default class GraphQLBuilder {
     return `(${argVariables.join(', ')})`;
   }
 
-  buildQuery(args) {
+  buildQuery(args?) {
     return {
       query: gql`
         query getResults${this.declareArgumentVariables()} {

@@ -35,6 +35,6 @@ export default class GqlMutationComponent implements OnInit {
   executeMutation(argValues) {
     this.apolloClient.mutate(this.graphQLBuilder().buildMutation(argValues)).then(({data}) => {
       this.mutationResults = data[this.graphQLBuilder().queryName()];
-    }});
+    });
   }
 }

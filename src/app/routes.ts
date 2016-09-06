@@ -7,7 +7,7 @@ import GqlMutationComponent from './gql-mutation';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'formtest', component: FormTestComponent },
-  { path: 'query/:queryName', component: QueryComponent }
+  { path: 'query/:queryName', component: QueryComponent },
   { path: 'mutation/:mutationName', component: GqlMutationComponent }
 ];
 

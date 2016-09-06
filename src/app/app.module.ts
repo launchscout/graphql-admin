@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import AppComponent from './app';
 import { routing, appRoutingProviders } from './routes';
 import SchemaService from './schema_service';
+import QueryLinks from './gql-query-links';
 
 import {
   defaultApolloClient,
@@ -21,7 +22,8 @@ const client = new ApolloClient({
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QueryLinks
   ],
   imports: [
     BrowserModule,

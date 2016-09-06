@@ -1,16 +1,12 @@
-<nav>
+<nav *ngIf="schemaLoaded">
   Queries
-  <ul>
-    <li *ngFor="let query of queries">
-      <a [routerLink]="['/query', query.name]">{{query.name}}</a>
-    </li>
-  </ul>
-  Mutations
+  <gql-query-links [queryFields]="queries()"></gql-query-links>
+  <!-- Mutations
   <ul>
     <li *ngFor="let mutation of mutations">
       <a [routerLink]="['/mutation', mutation.name]">{{mutation.name}}</a>
     </li>
-  </ul>
+  </ul> -->
 
 </nav>
 <router-outlet></router-outlet>
