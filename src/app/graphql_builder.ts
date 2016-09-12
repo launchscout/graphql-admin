@@ -1,9 +1,8 @@
 import gql from 'graphql-tag';
 
 export default class GraphQLBuilder {
-  querySchema: Object;
 
-  constructor(private querySchema: Object) {}
+  constructor(private querySchema: any, private parents?: Array<String>) {}
 
   queryName() {
     return this.querySchema.name;
@@ -31,21 +30,46 @@ export default class GraphQLBuilder {
     return `(${argVariables.join(', ')})`;
   }
 
-  buildQuery(args?) {
-    return {
-      query: gql`
-        query getResults${this.declareArgumentVariables()} {
-          ${this.queryName()}${this.argumentVariables()} {
-            ${this.scalarFields().map((field) => field.name).join(', ')}
-          }
+  buildInnerQuery(parents?: Array<String>) {
+    if (parents && parents.length > 0) {
+      return `
+        ${parents[0]} {
+          ${this.buildInnerQuery(parents.slice(1))}
         }
-      `,
+      `;
+    }
+    return `
+      ${this.queryName()}${this.argumentVariables()} {
+        ${this.scalarFields().map((field) => field.name).join(', ')}
+      }
+    `;
+  }
+
+  buildQuery(args?) {
+    const queryString = `
+        query getResults${this.declareArgumentVariables()} {
+          ${this.buildInnerQuery(this.parents.slice(0, -1))}
+        }`;
+    console.log(queryString);
+    return {
+      query: gql`${queryString}`,
       variables: args,
       forceFetch: true
     };
 
   }
 
+  extractResults(payload) {
+    return this.findResults(payload[this.parents[0]], this.parents.slice(1));
+  }
+
+  findResults(payload, paths) {
+    if (paths.length > 0) {
+      return this.findResults(payload[paths[0]], paths.slice(1));
+    } else {
+      return payload;
+    }
+  }
   buildMutation(args) {
     return {
       mutation: gql`
@@ -57,8 +81,8 @@ export default class GraphQLBuilder {
       `,
       variables: args,
     };
-
   }
+
   scalarFields() {
     return this.queryFields() ? this.queryFields().filter((field) => field.type.kind === "SCALAR") : [];
   }

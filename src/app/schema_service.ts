@@ -34,14 +34,39 @@ export default class SchemaService {
     return this.getType(this.schema.queryType.name);
   }
 
-  getQuerySchema(queryName: String) {
-    const querySchema = this.getQueryType().fields.find(field => field.name === queryName);
-    if (querySchema.type.kind === 'LIST') {
-      querySchema.type.ofType = this.getType(querySchema.type.ofType.name);
+  getField(type, fieldName) {
+    return type.fields.find(field => field.name === fieldName);
+  }
+
+  getQueryFieldType(queryField) {
+    if (queryField.type.kind === 'LIST') {
+      return this.getType(queryField.type.ofType.name);
     } else {
-      querySchema.type = this.getType(querySchema.type.name);
+      return this.getType(queryField.type.name);
     }
-    return querySchema;
+  }
+
+  resolveQueryReturnType(queryField) {
+    if (queryField.type.kind === 'LIST') {
+      queryField.type.ofType = this.getType(queryField.type.ofType.name);
+    } else {
+      queryField.type = this.getType(queryField.type.name);
+    }
+  }
+
+  findQuerySchema(queryType: any, fieldPath: Array<String>) {
+    if (fieldPath.length > 1) {
+      const field = this.getField(queryType, fieldPath[0]);
+      return this.findQuerySchema(this.getQueryFieldType(field), fieldPath.slice(1));
+    } else {
+      const querySchema = this.getField(queryType, fieldPath[0]);
+      this.resolveQueryReturnType(querySchema);
+      return querySchema;
+    }
+  }
+
+  getQuerySchema(fieldPath: Array<String>) {
+    return this.findQuerySchema(this.getQueryType(), fieldPath);
   }
   // getMutationSchema(mutationName) {
   //   return this.getSchema().map((schema) => {

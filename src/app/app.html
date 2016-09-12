@@ -1,6 +1,6 @@
 <nav *ngIf="schemaLoaded">
   Queries
-  <gql-query-links [queryFields]="queries()"></gql-query-links>
+  <gql-query-links [queryType]="queryType()"></gql-query-links>
   <!-- Mutations
   <ul>
     <li *ngFor="let mutation of mutations">

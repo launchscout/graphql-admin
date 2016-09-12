@@ -1,6 +1,6 @@
 <div *ngIf="listQuery">
-  <gql-list [querySchema]="querySchema"></gql-list>
+  <gql-list [fieldPath]="fieldPath" [querySchema]="querySchema"></gql-list>
 </div>
 <div *ngIf="!listQuery">
-  <gql-scalar [querySchema]="querySchema"></gql-scalar>
+  <gql-scalar [fieldPath]="fieldPath" [querySchema]="querySchema"></gql-scalar>
 </div>

@@ -116,11 +116,7 @@ describe("GraphQLBuilder", () => {
   }
 
   beforeEach( () => {
-    graphQLBuilder = new GraphQLBuilder(listQuerySchema);
-  });
-
-  it("gets query name", () => {
-    expect(graphQLBuilder.queryName()).toEqual('bob');
+    graphQLBuilder = new GraphQLBuilder(listQuerySchema, ['bob']);
   });
 
   it("gets query name", () => {
@@ -129,24 +125,46 @@ describe("GraphQLBuilder", () => {
 
   it("isList", () => {
     expect(graphQLBuilder.isList()).toBeTruthy();
-    expect(new GraphQLBuilder(objectQuerySchema).isList()).toBeFalsy();
+    expect(new GraphQLBuilder(objectQuerySchema, ['bob']).isList()).toBeFalsy();
   });
 
   it("returns query fields", () => {
     expect(graphQLBuilder.queryFields().length).toEqual(2);
-    expect(new GraphQLBuilder(objectQuerySchema).queryFields().length).toEqual(2);
+    expect(new GraphQLBuilder(objectQuerySchema, ['bob']).queryFields().length).toEqual(2);
   });
 
   it("builds queries", () => {
-    graphQLBuilder = new GraphQLBuilder(objectQuerySchema);
+    graphQLBuilder = new GraphQLBuilder(objectQuerySchema, ['bob']);
     const query = graphQLBuilder.buildQuery({id: 1});
     expect(query.variables.id).toEqual(1);
     expect(query.query).toBeDefined();
   });
 
+  it("builds nested queries", () => {
+    graphQLBuilder = new GraphQLBuilder(objectQuerySchema, ['foo', 'bob']);
+    const query = graphQLBuilder.buildQuery({id: 1});
+    expect(query.variables.id).toEqual(1);
+    expect(query.query).toBeDefined();
+    expect(query.query.loc.source.body).toContain('foo {');
+    expect(query.query.loc.source.body).not.toContain('bob {');
+    expect(query.query.loc.source.body).toContain('bob(');
+  });
+
   it("builds queries without arguments", () => {
     const query = graphQLBuilder.buildQuery();
     expect(query.query).toBeDefined();
+  });
+
+  it("extracts results", () => {
+    graphQLBuilder = new GraphQLBuilder(objectQuerySchema, ['foo', 'bob']);
+    const data = {
+      foo: {
+        bob: {
+          bing: 'baz'
+        }
+      }
+    };
+    expect(graphQLBuilder.extractResults(data).bing).toEqual(data.foo.bob.bing);
   });
 
   it("builds mutation", () => {

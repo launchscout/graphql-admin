@@ -16,7 +16,7 @@ export default class AppComponent {
     });
   }
 
-  queries() {
-    return this.schemaService.getQueryType().fields;
+  queryType() {
+    return this.schemaService.getQueryType();
   }
 }

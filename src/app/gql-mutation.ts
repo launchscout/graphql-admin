@@ -2,12 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import SchemaService from './schema_service';
 import { ActivatedRoute } from '@angular/router';
 import GqlArgsFormComponent from './gql-args-form';
-import template from './gql-mutation.html';
 import { Angular2Apollo } from 'angular2-apollo';
 import GraphQLBuilder from './graphql_builder';
 
 @Component({
-    template,
+    templateUrl: 'gql-mutation.html',
     directives: [GqlArgsFormComponent]
 })
 export default class GqlMutationComponent implements OnInit {

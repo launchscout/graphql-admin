@@ -17,7 +17,8 @@ import ApolloClient, {
 } from 'apollo-client';
 
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface('http://localhost:4000/graphql')
+  // networkInterface: createNetworkInterface('http://localhost:4000/graphql')
+  networkInterface: createNetworkInterface('https://www.graphqlhub.com/graphql')
 });
 
 @NgModule({

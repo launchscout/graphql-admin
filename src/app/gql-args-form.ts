@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import template from './gql-args-form.html';
 
 @Component({
   selector: 'gql-args-form',
-  template
+  templateUrl: 'gql-args-form.html'
 })
 export default class GqlArgsForm {
   @Input() args: Array<Object>;
