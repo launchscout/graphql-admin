@@ -1,5 +1,4 @@
-Fields
-<input type="button" (click)="executeQuery()" value="Get Data" />
+<gql-args-form *ngIf="querySchema" [args]="querySchema.args" (onExecute)="executeQuery($event)"></gql-args-form>
 <table>
   <thead>
     <tr>

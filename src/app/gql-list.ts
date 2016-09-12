@@ -25,8 +25,8 @@ export default class GqlListComponent {
     return this._graphQLBuilder;
   }
 
-  executeQuery() {
-    this.apolloClient.watchQuery(this.graphQLBuilder().buildQuery()).subscribe({next: ({data}) => {
+  executeQuery(args) {
+    this.apolloClient.watchQuery(this.graphQLBuilder().buildQuery(args)).subscribe({next: ({data}) => {
       this.queryResults = this._graphQLBuilder.extractResults(data);
     }});
   }
