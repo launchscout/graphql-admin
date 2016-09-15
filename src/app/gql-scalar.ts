@@ -12,24 +12,19 @@ import GraphQLBuilder from './graphql_builder';
   directives: [GqlArgsForm]
 })
 export default class GqlScalarComponent {
-  @Input() querySchema: Object;
+  @Input() queryBuilder: GraphQLBuilder;
   @Input() fieldPath: Array<String>;
 
   apolloClient: Angular2Apollo;
+  queryResults: Object;
 
-  constructor(apolloClient: Angular2Apollo) {
+  constructor(schemaService: SchemaService, apolloClient: Angular2Apollo) {
     this.apolloClient = apolloClient;
   }
 
-  graphQLBuilder() {
-    if (!this._graphQLBuilder) {
-      this._graphQLBuilder = new GraphQLBuilder(this.querySchema, this.fieldPath);
-    }
-    return this._graphQLBuilder;
-  }
   executeQuery(queryArguments) {
-    this.apolloClient.watchQuery(this.graphQLBuilder().buildQuery(queryArguments)).subscribe({next: ({data}) => {
-      this.queryResults = this._graphQLBuilder.extractResults(data);
+    this.apolloClient.watchQuery(this.queryBuilder.buildQuery(queryArguments)).subscribe({next: ({data}) => {
+      this.queryResults = this.queryBuilder.extractResults(data);
     }});
   }
 

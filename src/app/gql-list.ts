@@ -10,24 +10,19 @@ import GraphQLBuilder from './graphql_builder';
   templateUrl: 'gql-list.html'
 })
 export default class GqlListComponent {
-  @Input() querySchema: Object;
+  @Input() queryBuilder: GraphQLBuilder;
   @Input() fieldPath: Array<String>;
-  queryFields: Array<Object>;
+
+  apolloClient: Angular2Apollo;
+  queryResults: Array<Object>;
 
   constructor(schemaService: SchemaService, apolloClient: Angular2Apollo) {
     this.apolloClient = apolloClient;
   }
 
-  graphQLBuilder() {
-    if (!this._graphQLBuilder) {
-      this._graphQLBuilder = new GraphQLBuilder(this.querySchema, this.fieldPath);
-    }
-    return this._graphQLBuilder;
-  }
-
   executeQuery(args) {
-    this.apolloClient.watchQuery(this.graphQLBuilder().buildQuery(args)).subscribe({next: ({data}) => {
-      this.queryResults = this._graphQLBuilder.extractResults(data);
+    this.apolloClient.watchQuery(this.queryBuilder.buildQuery(args)).subscribe({next: ({data}) => {
+      this.queryResults = this.queryBuilder.extractResults(data);
     }});
   }
 

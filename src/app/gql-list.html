@@ -1,13 +1,13 @@
-<gql-args-form *ngIf="querySchema" [args]="querySchema.args" (onExecute)="executeQuery($event)"></gql-args-form>
+<gql-args-form [args]="queryBuilder.args()" (onExecute)="executeQuery($event)"></gql-args-form>
 <table>
   <thead>
     <tr>
-      <th *ngFor="let field of graphQLBuilder().scalarFields()"> {{field.name}} </th>
+      <th *ngFor="let field of queryBuilder.scalarFields()"> {{field.name}} </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of queryResults">
-      <td *ngFor="let field of graphQLBuilder().scalarFields()"> {{row[field.name]}}</td>
+      <td *ngFor="let field of queryBuilder.scalarFields()"> {{row[field.name]}}</td>
     </tr>
   </tbody>
 </table>

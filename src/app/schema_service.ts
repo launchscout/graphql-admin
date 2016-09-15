@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import introspectionQuery from './introspection_query';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Rx';
+import GraphQLBuilder from './graphql_builder';
 
 const schemaQuery = {
   query: introspectionQuery,
@@ -35,7 +36,8 @@ export default class SchemaService {
   }
 
   getField(type, fieldName) {
-    return type.fields.find(field => field.name === fieldName);
+    const fields = type.kind === 'LIST' ? type.ofType.fields : type.fields;
+    return fields.find(field => field.name === fieldName);
   }
 
   getQueryFieldType(queryField) {
@@ -66,7 +68,12 @@ export default class SchemaService {
   }
 
   getQuerySchema(fieldPath: Array<String>) {
+    console.log(fieldPath);
     return this.findQuerySchema(this.getQueryType(), fieldPath);
+  }
+
+  getGraphQLBuilder(fieldPath: Array<String>) {
+    return new GraphQLBuilder(this, fieldPath);
   }
   // getMutationSchema(mutationName) {
   //   return this.getSchema().map((schema) => {

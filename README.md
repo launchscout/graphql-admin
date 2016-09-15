@@ -17,13 +17,13 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 npm install
 ```
 
-Then, you may want to modify `src/app/app.module.ts` to configure the graphql client to point to your server. Currently it's set to point at `http://localhost:4000`. Your graphql server will need to support
-CORS as well for this setup to work.
+Then, you may want to modify `src/app/app.module.ts` to configure the graphql client to point to your server. Currently it's set to point at `http://graphqlhub.com/graphql`. Whatever server
+you point at will need to support CORS or you will get cross-origin errors.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## GraphQL server
 
-This project has so far only been tested using [our fork](https://github.com/gaslight/absinthe_example) the example [Absinthe](http://absinthe-graphql.org/) project. To try it, clone this 
+Initial developer of this project has been tested using [our fork](https://github.com/gaslight/absinthe_example) the example [Absinthe](http://absinthe-graphql.org/) project. To try it, clone this
 project and run it. It already supports CORS so it should "Just Work" (TM).
