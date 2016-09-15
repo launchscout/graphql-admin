@@ -22,7 +22,6 @@ export default class SchemaService {
   loadSchema() {
     return this.apolloClient.watchQuery(schemaQuery).map(({ data: { __schema } }) => {
       this.schema = __schema;
-      console.log(this.schema);
       return this.schema;
     });
   }
@@ -68,7 +67,6 @@ export default class SchemaService {
   }
 
   getQuerySchema(fieldPath: Array<String>) {
-    console.log(fieldPath);
     return this.findQuerySchema(this.getQueryType(), fieldPath);
   }
 

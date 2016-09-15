@@ -39,7 +39,7 @@ describe("GraphQLBuilder", () => {
   it("builds nested queries", () => {
     schemaService.schema = graphqlHubSchema.data.__schema;
     graphQLBuilder = new GraphQLBuilder(schemaService, ['github', 'user']);
-    const query = graphQLBuilder.buildQuery({id: 'foo'});
+    const query = graphQLBuilder.buildQuery({username: 'foo'});
     expect(query.query).toBeDefined();
     expect(query.query.loc.source.body).toContain('github {');
     expect(query.query.loc.source.body).not.toContain('user {');
@@ -50,6 +50,15 @@ describe("GraphQLBuilder", () => {
     graphQLBuilder = new GraphQLBuilder(schemaService, ['posts']);
     const query = graphQLBuilder.buildQuery();
     expect(query.query).toBeDefined();
+  });
+
+  it('ignores empty arguments', () => {
+    schemaService.schema = swapiSchema.data.__schema;
+    graphQLBuilder = new GraphQLBuilder(schemaService, ['allFilms']);
+    const query = graphQLBuilder.buildQuery({after: "", before: ""});
+    expect(query.query.loc.source.body).toContain('allFilms');
+    expect(query.query.loc.source.body).not.toContain('$after');
+    expect(query.variables.after).not.toBeDefined();
   });
 
   it("extracts results", () => {
@@ -85,7 +94,7 @@ describe("GraphQLBuilder", () => {
     it('builds query', () => {
       const query = graphQLBuilder.buildQuery();
       expect(query.query).toBeDefined();
-      expect(query.query.loc.source.body).toContain('allFilms(');
+      expect(query.query.loc.source.body).toContain('allFilms');
       expect(query.query.loc.source.body).toContain('edges {');
       expect(query.query.loc.source.body).toContain('node {');
       expect(query.query.loc.source.body).toContain('title');

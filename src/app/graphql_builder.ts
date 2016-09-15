@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { pickBy } from 'lodash';
 
 export default class GraphQLBuilder {
 
@@ -13,7 +14,6 @@ export default class GraphQLBuilder {
   }
 
   args() {
-    console.log(this.querySchema.args);
     return this.querySchema.args;
   }
 
@@ -40,30 +40,34 @@ export default class GraphQLBuilder {
     return this.schemaService.getQuerySchema(this.fieldPath.concat(['edges', 'node'])).type;
   }
 
-  declareArgumentVariables() {
-    if (!this.querySchema.args || this.querySchema.args.length === 0) { return ''; }
-    let declarations = this.querySchema.args.map((arg) => {
+  argsWithValues(argValues) {
+    return (this.querySchema.args || [])
+      .filter( arg => argValues[arg.name] && argValues[arg.name] != '');
+  }
+
+  declareArgumentVariables(argValues = {}) {
+    let declarations = this.argsWithValues(argValues).map((arg) => {
       return `$${arg.name}: ${arg.type.kind === 'NON_NULL' ? `${arg.type.ofType.name}!` : arg.type.name}`
     });
-    return `(${declarations.join(', ')})`;
+    return declarations.length > 0 ? `(${declarations.join(', ')})` : '';
   }
 
-  argumentVariables() {
-    if (!this.querySchema.args || this.querySchema.args.length === 0) { return ''; }
-    const argVariables = this.querySchema.args.map((arg) => `${arg.name}: $${arg.name}`);
-    return `(${argVariables.join(', ')})`;
+  argumentVariables(argValues = {}) {
+    const argVariables = this.argsWithValues(argValues)
+      .map((arg) => `${arg.name}: $${arg.name}`);
+    return argVariables.length >  0  ? `(${argVariables.join(', ')})` : '';
   }
 
-  buildInnerQuery(fieldPath?: Array<String>) {
+  buildInnerQuery(fieldPath: Array<String>, argValues: Object) {
     if (fieldPath && fieldPath.length > 0) {
       return `
         ${fieldPath[0]} {
-          ${this.buildInnerQuery(fieldPath.slice(1))}
+          ${this.buildInnerQuery(fieldPath.slice(1), argValues)}
         }
       `;
     }
     return `
-      ${this.queryName()}${this.argumentVariables()} {
+      ${this.queryName()}${this.argumentVariables(argValues)} {
         ${ this.fieldQuery() }
       }
     `;
@@ -89,17 +93,21 @@ export default class GraphQLBuilder {
     return this.scalarFields().map((field) => field.name).join(', ');
   }
 
-  buildQuery(args?) {
+  buildQuery(argValues?) {
     const queryString = `
-        query getResults${this.declareArgumentVariables()} {
-          ${this.buildInnerQuery(this.fieldPath.slice(0, -1))}
+        query getResults${this.declareArgumentVariables(argValues)} {
+          ${this.buildInnerQuery(this.fieldPath.slice(0, -1), argValues)}
         }`;
     return {
       query: gql`${queryString}`,
-      variables: args,
+      variables: this.buildVariables(argValues),
       forceFetch: true
     };
 
+  }
+
+  buildVariables(argValues) {
+    return pickBy(argValues, (value, key) => value && value !== '');
   }
 
   extractResults(payload) {
