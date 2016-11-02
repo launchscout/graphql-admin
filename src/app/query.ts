@@ -29,6 +29,7 @@ export default class QueryComponent implements OnInit {
     //   this.listQuery = this.querySchema.type.kind === 'LIST';
     // })
     this.route.url.map((urlSegments) => urlSegments.map(segment => segment.path)).subscribe((paths) => {
+      console.log(paths);
       this.fieldPath = paths;
       this.queryBuilder = this.schemaService.getGraphQLBuilder(paths);
       this.listQuery = this.queryBuilder.isList();

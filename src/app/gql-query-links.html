@@ -1,11 +1,11 @@
 <ul>
-  <li *ngFor="let query of queryType.fields">
-    <span *ngIf="isQuery(query)">
-      <a [routerLink]="queryLink(query)">{{query.name}}</a>
+  <li *ngFor="let queryLink of getQueryLinks()">
+    <span *ngIf="!queryLink.queryLinks">
+      <a [routerLink]="queryLink.linkSegments">{{queryLink.name}}</a>
     </span>
-    <span *ngIf="!isQuery(query)">
+    <span *ngIf="queryLink.queryLinks">
       {{query.name}}
-      <gql-query-links [parentFieldPath]="fieldPath(query)" [queryType]="subqueryType(query)"></gql-query-links>
+      <gql-query-links [queryLinks]="queryLinks"></gql-query-links>
     </span>
   </li>
 </ul>

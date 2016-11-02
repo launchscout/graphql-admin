@@ -12,7 +12,7 @@
     "sourceMap": true,
     "target": "es5",
     "typeRoots": [
-      "../node_modules/@types"
+      "/Users/kon4244/dev/angular2-cli-spike/node_modules/@types"
     ],
     "types": [
       "jasmine"

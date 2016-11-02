@@ -21,6 +21,7 @@ export default class SchemaService {
 
   loadSchema() {
     return this.apolloClient.watchQuery(schemaQuery).map(({ data: { __schema } }) => {
+      console.log(__schema);
       this.schema = __schema;
       return this.schema;
     });
