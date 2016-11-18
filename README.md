@@ -1,5 +1,7 @@
 # graphql-admin
 
+## This project is now abandoned. Go see [the React version](http://github.com/gaslight/graphql-admin-react) instead.
+
 This is a spike of dynamically creating a front end for a graphql server using introspection.
 So far the following works:
 
